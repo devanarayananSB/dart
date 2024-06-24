@@ -1,0 +1,19 @@
+String reverseString(String input) {
+  String reversed = '';
+  for (int i = input.length - 1; i >= 0; i--) {
+    reversed += input[i];
+  }
+  return reversed;
+}
+
+void main() {
+  String x = "MALAYALAM";
+
+  String y = reverseString(x);
+  if(x==y){
+    print(y +" IS A PALINDROME");
+  }
+  else {
+    print(x +" is not palindrome");
+  }
+}
