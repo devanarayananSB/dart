@@ -1,14 +1,13 @@
 import 'dart:io';
-import 'dart:math';
 
 List<Map<String, dynamic>> contacts = [];
+
 void main() {
-  int options = 0;
-  while (options != 5);
-  {
-    print("1.Add contact\n2.Display contacts\n3.Edit\n4.delete\n5.quit");
-    options = int.parse(stdin.readLineSync()!);
-    switch (options) {
+  int option = 0;
+  while (option != 5) {
+    print("1.Add\n2.Display\n3.Edit\n4.Delete\n5.Quit");
+    option = int.parse(stdin.readLineSync()!);
+    switch (option) {
       case 1:
         add();
         break;
@@ -19,46 +18,70 @@ void main() {
         edit();
         break;
       case 4:
-        delete();
+        deleteContact();
         break;
       case 5:
         quit();
         break;
       default:
-        print("invalid option");
+        print("Invalid option");
     }
   }
 }
 
 void add() {
-  print("enter the name");
+  print("Enter name:");
   String name = stdin.readLineSync()!;
-  print("enter the number");
+  print("Enter phone:");
   String phone = stdin.readLineSync()!;
   Map<String, dynamic> contact = {"name": name, "phone": phone};
   contacts.add(contact);
 }
 
 void display() {
+  if (contacts.isEmpty) {
+    print("No contacts to display.");
+    return;
+  }
   contacts.forEach((e) {
-    print("${contacts.indexOf(e) + 1}.${e["name"]}:${e["phone"]}");
+    print("${contacts.indexOf(e) + 1}. ${e["name"]}: ${e["phone"]}");
   });
 }
 
 void edit() {
-  contacts.forEach((e) {
-    print("${contacts.indexOf(e) + 1}.${e["name"]}:${e["phone"]}");
-  });
+  if (contacts.isEmpty) {
+    print("No contacts to edit.");
+    return;
+  }
+  display();
+  print("Enter the number of the contact to edit:");
+  int contactNumber = int.parse(stdin.readLineSync()!) - 1;
+  if (contactNumber < 0 || contactNumber >= contacts.length) {
+    print("Invalid contact number.");
+    return;
+  }
+  print("Enter new name:");
+  String newName = stdin.readLineSync()!;
+  print("Enter new phone:");
+  String newPhone = stdin.readLineSync()!;
+  contacts[contactNumber] = {"name": newName, "phone": newPhone};
 }
 
-void delete() {
-  contacts.forEach((e) {
-    print("${contacts.indexOf(e) + 1}.${e["name"]}:${e["phone"]}");
-  });
+void deleteContact() {
+  if (contacts.isEmpty) {
+    print("No contacts to delete.");
+    return;
+  }
+  display();
+  print("Enter the number of the contact to delete:");
+  int contactNumber = int.parse(stdin.readLineSync()!) - 1;
+  if (contactNumber < 0 || contactNumber >= contacts.length) {
+    print("Invalid contact number.");
+    return;
+  }
+  contacts.removeAt(contactNumber);
 }
 
 void quit() {
-  contacts.forEach((e) {
-    print("${contacts.indexOf(e) + 1}.${e["name"]}:${e["phone"]}");
-  });
+  print("Goodbye!");
 }
